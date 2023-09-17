@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $promo = $_POST['promo'];
     $piece = $_POST['piece'];
+    echo '<script>alert("product created succesfuly")</script>';
 
 
 
@@ -39,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if ($statement->execute()) {
-        echo '<script>alert("user created succesfuly")</script>';
+        echo '<script>alert("product created succesfuly")</script>';
         header("Refresh: 0.1; ./admin.php");
         } else {
         echo "Error adding product.";

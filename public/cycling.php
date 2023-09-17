@@ -27,30 +27,19 @@
             <b class="text">Bikes</b>
         </div>
 
-        
-        
-        
-        
-        
-        
-        
-        
         <?php
         include '../includes/db_connection.php';
 
-        $query = "SELECT * FROM produit WHERE categorie='cycling' ORDER BY RAND () LIMIT 3";
+        $query = "SELECT * FROM produit WHERE categorie='cycling' ORDER BY RAND ()";
         $stmt = $db->prepare($query);
         $stmt->execute();
-        echo "<ul class='cards'>";
+        echo "<ul class='cards' style='margin-bottom: 70px;'>";
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $imageData = $row['img'];
             $productName = $row['nom'];
             $productBrand = $row['marque'];
             $productPrix = $row['prix'];
             $productPiece = $row['piece'];
-
-
-        
 
             echo "<li class='card' >";
             echo "<ul>";
@@ -59,48 +48,47 @@
             echo "<div class='container'>";
             echo "<h5 class='card-title'>" . $productName . "</h5>";
             echo "<p class='card-text'>" . $productBrand . "</p>";
-            echo "<button class='promo'>" . $productPrix . "TND</button>";
-            echo "<button class='add-to-cart-btn' >add<img src='./images/cart.png' style='width: 12px; height: 12px;'></button>";
+            echo "<button class='promo'>" . $productPrix . "ZL </button>";
+            echo "<form class='add-to-cart-form' method='POST'>";
+            echo "<input type='hidden' name='prodname' id='prodname' value='$productName - $productBrand - $productPrix ZL'>";
+            echo "<button type='submit' class='add-to-cart-btn'>Add<img src='./images/cart.png' style='width: 12px; height: 12px;'></button>";
+            echo "</form>";
             echo "</div>";    
             echo "</li>";
         }
         echo "</ul>";
         ?>
- <?php
-        include '../includes/db_connection.php';
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        $query = "SELECT * FROM produit WHERE categorie='cycling' ORDER BY RAND () LIMIT 3";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        echo "<ul class='cards'>";
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            
-            $imageData = $row['img'];
-            $productName = $row['nom'];
-            $productBrand = $row['marque'];
-            $productPrix = $row['prix'];
-            $productPiece = $row['piece'];
-             
-            echo "<li class='card' >";
-            echo "<ul>";
-            echo "<li><img  style='width:150px' src='data:image/jpeg;base64," . base64_encode($imageData) . "'></li>";  
-            echo "</ul>";
-            echo "<div class='container'>";
-            echo "<h5 class='card-title'>" . $productName . "</h5>";
-            echo "<p class='card-text'>" . $productBrand . "</p>";
-            echo "<button class='promo'>" . $productPrix . "TND</button>";
-            echo "<button class='add-to-cart-btn' data-product-name='$productName'>add<img src='./images/cart.png' style='width: 12px; height: 12px;'></button>";
-            echo " </div>";    
-            echo "</li>";
-        }
-        echo "</ul>";
-        ?>
-
+    <script>
+        $(document).ready(function () {
+            console.log('hey');
+            $('form.add-to-cart-form').submit(function (event) {
+                event.preventDefault();
+                var prodname = $(this).find('input[name="prodname"]').val();
+                console.log(prodname);
+                $.ajax({
+                    url: 'get_product_details.php', // Replace with your server-side script URL
+                    method: 'POST', // or 'GET' depending on your server-side code
+                    data: { prodname : prodname },
+                    success: function (response) {
+                        console.log('Data saved in session:', response);
+                        // You can update the client-side UI here if needed
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+                var cartItemList = $('#cartItemList');
+                cartItemList.append('<li>' + prodname + ' <button style="margin-left : 15px" class="delete-item">Delete</button></li>');
+                $('#cartModal').modal('show');
+            });
+        });
+    </script>
 <?php
     include 'footer.php';
 ?>
 <?php include 'modal.php'; ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="./js/cart.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
