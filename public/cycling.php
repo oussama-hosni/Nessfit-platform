@@ -68,22 +68,35 @@
                 var prodname = $(this).find('input[name="prodname"]').val();
                 console.log(prodname);
                 $.ajax({
-                    url: 'get_product_details.php', // Replace with your server-side script URL
+                    url: '../includes/get_product_details.php', // Replace with your server-side script URL
                     method: 'POST', // or 'GET' depending on your server-side code
                     data: { prodname : prodname },
+                    dataType: 'json',
                     success: function (response) {
-                        console.log('Data saved in session:', response);
-                        // You can update the client-side UI here if needed
+                        if (Array.isArray(response)) {
+                        
+                        var cartItemList = $('#cartItemList');
+                        cartItemList.empty();
+                        $.each(response, function (index, item) {
+                            cartItemList.append('<li>' + item + ' <button style="margin-left : 15px" class="delete-item">Delete</button></li>'); 
+                        });
+                        updateItemCount(response);
+                        $('#cartModal').modal('show');
+                        } else {
+                            console.log('Invalid response format.');
+                        }
                     },
                     error: function (error) {
-                        console.error('Error:', error);
+                        console.log('Error:', error);
                     }
                 });
-                var cartItemList = $('#cartItemList');
-                cartItemList.append('<li>' + prodname + ' <button style="margin-left : 15px" class="delete-item">Delete</button></li>');
-                $('#cartModal').modal('show');
             });
         });
+    
+        function updateItemCount(response) {
+            var itemCount = response.length; 
+            $('#cartItemCount').text(itemCount);
+        }
     </script>
 <?php
     include 'footer.php';
