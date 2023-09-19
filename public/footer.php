@@ -20,10 +20,9 @@ echo'
             <a class="item" href="contact.php">Contact </a><br><br><br>
         </li>
         <li class="part-contact">
-            <h5>by</h5><a href="https://www.linkedin.com/in/chedly-shabou-17a87423a/" target="_blank"> Chedly Shabou</a><a> . </a><a href="https://www.linkedin.com/in/ayoub-aljane-8757a9184/" target="_blank" target>Ayoub Aljane</a>
+            <h5>by</h5><a> . </a><a>Oussama hosni</a>
         </li>
     </ul>    
-
     
 </section>
 

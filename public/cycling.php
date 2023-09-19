@@ -60,50 +60,13 @@
         ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            console.log('hey');
-            $('form.add-to-cart-form').submit(function (event) {
-                event.preventDefault();
-                var prodname = $(this).find('input[name="prodname"]').val();
-                console.log(prodname);
-                $.ajax({
-                    url: '../includes/get_product_details.php', // Replace with your server-side script URL
-                    method: 'POST', // or 'GET' depending on your server-side code
-                    data: { prodname : prodname },
-                    dataType: 'json',
-                    success: function (response) {
-                        if (Array.isArray(response)) {
-                        
-                        var cartItemList = $('#cartItemList');
-                        cartItemList.empty();
-                        $.each(response, function (index, item) {
-                            cartItemList.append('<li>' + item + ' <button style="margin-left : 15px" class="delete-item">Delete</button></li>'); 
-                        });
-                        updateItemCount(response);
-                        $('#cartModal').modal('show');
-                        } else {
-                            console.log('Invalid response format.');
-                        }
-                    },
-                    error: function (error) {
-                        console.log('Error:', error);
-                    }
-                });
-            });
-        });
-    
-        function updateItemCount(response) {
-            var itemCount = response.length; 
-            $('#cartItemCount').text(itemCount);
-        }
-    </script>
+
 <?php
     include 'footer.php';
 ?>
 <?php include 'modal.php'; ?>
 
-<script src="./js/cart.js"></script>
+<script src="../js/cart.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
