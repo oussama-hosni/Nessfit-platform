@@ -19,10 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->rowCount() > 0) 
         {
+            $output = 'you are registered';
             echo '<script>alert("you are registred")</script>';
                         header("Refresh: 0.1; ../public/index.php");
             }
      else {
+        $output = 'registration failed !';
         echo  "<script>alert(\"registration failed\")</script>";
     }
     }

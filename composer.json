@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "classmap": [
+            "C:/xampp/htdocs/projetweb/includes/register.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10"
+    }
+}
